@@ -4,11 +4,7 @@ $(document).ready(function () {
 
     var animals = ["cat", "dog", "hamster", "chicken", "horse"];
 
-
-    // functions area :  displayanimals, 
-
-
-    function displayAnimals() {
+    function renderButtons() {
         $("#buttons-section").empty();
         for (var i = 0; i < animals.length; i++) {
             var button = $("<button>");
@@ -18,11 +14,20 @@ $(document).ready(function () {
         }
     }
 
-    displayAnimals();
+    renderButtons();
+
+    // jQuery to activate the add animals to input form and rendeButtons function.
+    $("#add-animal").on("click", function(event) {
+        event.preventDefault();
+        var addAnimalInput = $("#animal-input").val().trim();
+        animals.push(addAnimalInput);
+        renderButtons();
+    })
+
 
     // Display animals info from api url
     function displayAnimalsinfo() {
-        $(".gifAnimals-section").empty();
+        $("#animals-section").empty();
         var animal = $(this).attr("name");
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=qWPtsqFT7M5oMW5Cp5LzLZlwNqM7a68b&limit=10"
 
@@ -37,14 +42,27 @@ $(document).ready(function () {
                 var gifDiv = $("<div class ='gifsearch'>");
                 //storing the rating date
                 var rating = response.rated;
-                // h2 element that will rated data
+                // H2 element that will store rated data and render on the html.
                 var ratedh2 = $('<h2>').text(response.data[i].rating);
+                //  This img tag will hold the images from the api resquest
+                var image = $("<imag>")
+                image.addClass("gifimg");
+                // assign of animated images to the image attr when user click the imag
+                image.attr("src", response.data[i].images.fixed_height_still.url).attr("animals-animate", response.data[i].images.fixed_height.url);
+                //assign of animated images to the image attr when user click the imag
+                image.attr("animal-still", response.data[i].images.fixed_height_still.url).attr("movement-status", "still");
+                //Displaying the rating and the image
+                gifDiv.append(ratedh2).append(image);
+                $("#animals-view").prepend(gifDiv);
 
-
-
+                // ajax is not responding yet need to work on it 
+                
+            
 
 
             }
+
+           
         });
     }
 
@@ -52,15 +70,15 @@ $(document).ready(function () {
 
 
 
+    // functions area : reset fn , showanimals fn, 
 
 
 
 
 
+    //ajax response and promise
 
 
 
 
 })
-
-
