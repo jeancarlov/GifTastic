@@ -64,15 +64,21 @@ $(document).ready(function () {
         
     }
 
-    $("body").on("click", "img.gifimg", function(){
+    $(document.body).on("click", ".gifimg", function(){
+        
         var movement = $(this).attr("movement-status");
+        console.log(movement);
+        console.log($(this).attr("animals-animate"));
+        console.log($(this).attr("animal-still"));
+
          
         if (movement === "still") {
-            $(this).attr("src", $(this).attr("animal-animate"));
-            $(this).attr(("movement-status", "animate"))
+            $(this).attr("src", $(this).attr("animals-animate"));
+            $(this).attr("movement-status", "animate");
+            
         } else {
             $(this).attr("src", $(this).attr("animal-still"));
-            $(this).attr(("movement-status", "still"))
+            $(this).attr("movement-status", "still");
 
         }
     })
