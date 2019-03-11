@@ -3,12 +3,13 @@ $(document).ready(function () {
     //list of global varibales 
 
     var animals = ["cat", "dog", "hamster", "chicken", "horse"];
+    var animal;
 
     function renderButtons() {
         $("#buttons-section").empty();
         for (var i = 0; i < animals.length; i++) {
             var button = $("<button>");
-            button.addClass("btn btn-secondary");
+            button.addClass("btn btn-secondary animal-button");
             button.attr("name", animals[i]).text(animals[i]);
             $("#buttons-section").append(button);
         }
@@ -23,6 +24,8 @@ $(document).ready(function () {
         animals.push(addAnimalInput);
         renderButtons();
     })
+
+    $('body').on("click", "button.animal-button", displayAnimalsinfo);
 
 
     // Display animals info from api url
@@ -45,7 +48,7 @@ $(document).ready(function () {
                 // H2 element that will store rated data and render on the html.
                 var ratedh2 = $('<h2>').text(response.data[i].rating);
                 //  This img tag will hold the images from the api resquest
-                var image = $("<imag>")
+                var image = $("<img>")
                 image.addClass("gifimg");
                 // assign of animated images to the image attr when user click the imag
                 image.attr("src", response.data[i].images.fixed_height_still.url).attr("animals-animate", response.data[i].images.fixed_height.url);
@@ -53,31 +56,26 @@ $(document).ready(function () {
                 image.attr("animal-still", response.data[i].images.fixed_height_still.url).attr("movement-status", "still");
                 //Displaying the rating and the image
                 gifDiv.append(ratedh2).append(image);
-                $("#animals-view").prepend(gifDiv);
-
-                // ajax is not responding yet need to work on it 
-                
-            
-
+                $("#animals-section").prepend(gifDiv);
 
             }
-
-           
+            
         });
+        
     }
 
+    $("body").on("click", "img.gifimg", function(){
+        var movement = $(this).attr("movement-status");
+         
+        if (movement === "still") {
+            $(this).attr("src", $(this).attr("animal-animate"));
+            $(this).attr(("movement-status", "animate"))
+        } else {
+            $(this).attr("src", $(this).attr("animal-still"));
+            $(this).attr(("movement-status", "still"))
 
-
-
-
-    // functions area : reset fn , showanimals fn, 
-
-
-
-
-
-    //ajax response and promise
-
+        }
+    })
 
 
 
